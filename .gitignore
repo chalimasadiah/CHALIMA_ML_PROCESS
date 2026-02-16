@@ -1,0 +1,18 @@
+# Virtual Environment
+.venv/
+venv/
+.CHALIMA_VENV/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+
+# Model files (optional)
+*.pkl
+

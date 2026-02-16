@@ -1,0 +1,133 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import joblib
+
+def load_data(fname):
+    """
+    The function to load dataset from CSV file.
+
+    Parameters
+    -----------
+    fname: str
+        File CSV location.
+
+    Returns
+    -------
+    data: pandas.DataFrame
+        Dataset that already loaded from CSV file.
+    """
+
+    data = pd.read_csv(fname)
+    print(f"Data Shape:{data.shape}")
+    return data
+
+def split_input_output(data, target_col):
+    """
+    The function to split dataset into input (X) and ouput (y).
+
+    Parameters
+    ----------
+    data: pandas.DataFrame
+        Whole dataset that contain feature and target.
+        
+    target_col: str
+        Target column name on dataset.
+
+    Returns
+    -------
+    X: pandas.Dataframe
+        Input dataset that contains feature.
+    y: pandas.Series
+        Output dataset that contains target.
+    """
+
+    X = data.drop(columns=[target_col])
+    y = data[target_col]
+
+    print(f"Original data shape: {data.shape}")
+    print(f"X data shape: {X.shape}")
+    print(f"y data shape: {y.shape}")
+
+    return X, y
+
+def split_train_test(X, y, test_size, random_state=None):
+    """
+    The function to split dataset into data train and data test.
+
+    Parameters
+    ----------
+    X: pandas.DataFrame
+        Dataset feature/input.
+    y: padas.Series
+        Dataset target/output.
+    test_size: float
+        Proportion of data used as test set.   
+    random_state: int (default: None)
+        Seed for random number generator to ensure 
+        reproducible result.
+
+    Returns
+    -------
+    X_train: pandas.DataFrame
+        Data feature for training.
+    X_test: pandas.DataFrame
+        Data feature for testing.
+    y_train: padas.Series
+        Data target for training.
+    y_test: padas.Series
+        Data target for testing.
+    """
+
+    X_train, X_test, y_train, y_test = train_test_split (
+        X,
+        y,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=y
+    )
+
+    print(f"X train shape: {X_train.shape}")
+    print(f"X test shape: {X_test.shape}")
+    print(f"y train shape: {y_train.shape}")
+    print(f"y test shape: {y_train.shape}")
+
+    return X_train, X_test, y_train, y_test
+
+def serialize_data(data, path):
+    """
+    The function to save serialize (object) Python into file.
+
+    Parameters
+    ----------
+    data: object
+        The Python object to be serialized (e.g. DataFrame, Series, array).
+    path: str
+        The location or file name where the object will be saved.
+
+    Returns
+    -------
+    None
+        This function does not return any value.
+    """
+
+    joblib.dump(data, path)
+
+def deserialize_data(path):
+    """
+    The function to load (deserialized)
+    Python objects from serialized files.
+
+    Parameters
+    ----------
+    path: str
+        The location or file name
+        where the object is serialized.
+
+    Returns
+    -------
+    data: object
+        The deserialized Python object.
+    """
+
+    data = joblib.load(path)
+    return data
